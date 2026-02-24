@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Tab Reminder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <div class="toggle-track">
+            <div class="toggle-thumb">
+                <span class="icon moon">🌙</span>
+                <span class="icon sun">☀️</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <h1>Tab Reminder</h1>
+
+    <!-- Input Card -->
+    <div class="card input-card">
+        <form id="tabForm" autocomplete="off">
+
+            <input
+                type="url"
+                id="url"
+                placeholder="Paste the link you don’t want to forget"
+                required
+            >
+
+            <input
+                type="text"
+                id="reason"
+                placeholder="Why do you want to come back here?"
+                required
+            >
+
+            <input
+                type="number"
+                id="remindAfter"
+                placeholder="Remind me in how many minutes? (optional)"
+                min="1"
+            >
+
+            <button type="submit">Save Tab</button>
+        </form>
+    </div>
+
+    <!-- List Card -->
+    <div class="card list-card">
+
+        <div class="controls">
+            <input
+                type="text"
+                id="search"
+                placeholder="Search by link or reason…"
+            >
+
+            <select id="filter">
+                <option value="all">All tabs</option>
+                <option value="pending">Pending</option>
+                <option value="done">Completed</option>
+            </select>
+        </div>
+
+        <div id="reminderBox"></div>
+
+        <ul id="tabList"></ul>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

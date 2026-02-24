@@ -1,0 +1,236 @@
+/* ---------- Base ---------- */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #190019;
+    color: #FBE4D8;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.light {
+    background: #FBE4D8;
+    color: #190019;
+}
+
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 32px 20px 20px; /* FIXED: reduced top padding */
+    position: relative;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+/* ---------- Cards ---------- */
+
+.card {
+    background: #2B124C;
+    padding: 22px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    transition: background 0.3s ease;
+}
+
+body.light .card {
+    background: #DFB6B2;
+}
+
+.list-card {
+    background: #522B5B;
+}
+
+body.light .list-card {
+    background: #DFB6B2;
+}
+
+/* ---------- Form ---------- */
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+input,
+select {
+    padding: 12px;
+    font-size: 14px;
+    background: #190019;
+    color: #FBE4D8;
+    border: 1px solid #522B5B;
+    border-radius: 10px;
+}
+
+body.light input,
+body.light select {
+    background: #FBE4D8;
+    color: #190019;
+    border: 1px solid #854F6C;
+}
+
+input::placeholder {
+    color: #DFB6B2;
+}
+
+body.light input::placeholder {
+    color: #854F6C;
+}
+
+/* ---------- Buttons ---------- */
+
+button {
+    padding: 14px;
+    font-size: 15px;
+    border: none;
+    border-radius: 12px;
+    background: #854F6C;
+    color: #FBE4D8;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+body.light button {
+    background: #522B5B;
+    color: #FBE4D8;
+}
+
+/* ---------- List ---------- */
+
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background: #2B124C;
+    padding: 16px;
+    margin-bottom: 14px;
+    border-radius: 14px;
+}
+
+body.light li {
+    background: #FBE4D8;
+}
+
+li a {
+    color: inherit;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+li p,
+small {
+    color: #DFB6B2;
+}
+
+body.light li p,
+body.light small {
+    color: #522B5B;
+}
+
+.actions {
+    margin-top: 12px;
+}
+
+.actions button {
+    background: #522B5B;
+    padding: 10px 14px;
+    margin-right: 6px;
+    border-radius: 10px;
+}
+
+.actions button:first-child {
+    background: #854F6C;
+}
+
+.done {
+    opacity: 0.6;
+    text-decoration: line-through;
+}
+
+/* ---------- Reminder ---------- */
+
+#reminderBox {
+    display: none;
+    background: #854F6C;
+    color: #FBE4D8;
+    padding: 14px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+}
+
+/* ---------- Theme Toggle ---------- */
+
+.theme-toggle {
+    position: absolute;
+    top: 8px;
+    right: -208px;
+    z-index: 100;
+}
+
+.toggle-track {
+    width: 56px;
+    height: 30px;
+    background: #522B5B;
+    border-radius: 999px;
+    padding: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background 0.25s ease;
+}
+
+body.light .toggle-track {
+    background: #DFB6B2;
+}
+
+.toggle-thumb {
+    width: 24px;
+    height: 24px;
+    background: #FBE4D8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(0);
+    transition: transform 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    position: relative;
+}
+
+body.light .toggle-thumb {
+    transform: translateX(26px);
+}
+
+.icon {
+    position: absolute;
+    font-size: 13px;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.icon.moon {
+    opacity: 1;
+}
+
+body.light .icon.sun {
+    opacity: 1;
+}
+
+body.light .icon.moon {
+    opacity: 0;
+}

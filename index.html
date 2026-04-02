@@ -1,79 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Tab Reminder</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tab Reminder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="page">
 
-<div class="container">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">🔖</div>
+      <h1>Tab Reminder</h1>
+    </div>
+    <div class="topbar-right">
+      <div class="stats-group">
+        <div class="stat-pill"><span class="n" id="sTotal">0</span><span class="l">All</span></div>
+        <div class="stat-pill"><span class="n" id="sPending">0</span><span class="l">Pending</span></div>
+        <div class="stat-pill"><span class="n" id="sDone">0</span><span class="l">Done</span></div>
+        <div class="stat-pill"><span class="n" id="sOverdue">0</span><span class="l">Overdue</span></div>
+      </div>
+      <button class="icon-btn" id="exportBtn">↓ Export</button>
+      <button class="icon-btn" id="importBtn">↑ Import</button>
+      <input type="file" id="importFile" accept=".json" style="display:none">
+      <button class="theme-btn" id="themeBtn" title="Toggle theme">☀️</button>
+    </div>
+  </header>
 
-    <!-- Theme Toggle -->
-    <div class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-        <div class="toggle-track">
-            <div class="toggle-thumb">
-                <span class="icon moon">🌙</span>
-                <span class="icon sun">☀️</span>
-            </div>
+  <aside class="sidebar">
+    <div class="sidebar-head">Save a tab</div>
+    <form id="tabForm" autocomplete="off">
+      <div class="field">
+        <label>URL</label>
+        <input type="url" id="url" placeholder="https://…" required>
+      </div>
+      <div class="field">
+        <label>Why come back?</label>
+        <input type="text" id="reason" placeholder="What's worth remembering?" required>
+      </div>
+      <div class="field">
+        <label>Note <span style="text-transform:none;letter-spacing:0;font-weight:400;opacity:.6">(optional)</span></label>
+        <textarea id="noteInput" placeholder="Extra context…"></textarea>
+      </div>
+      <div class="field">
+        <label>Remind in (mins)</label>
+        <input type="number" id="remindAfter" placeholder="e.g. 30" min="1">
+      </div>
+      <div class="field">
+        <label>Priority</label>
+        <div class="prio-row">
+          <button type="button" class="prio-btn active" data-p="low">Low</button>
+          <button type="button" class="prio-btn" data-p="medium">Med</button>
+          <button type="button" class="prio-btn" data-p="high">High</button>
         </div>
-    </div>
-
-    <!-- Header -->
-    <h1>Tab Reminder</h1>
-
-    <!-- Input Card -->
-    <div class="card input-card">
-        <form id="tabForm" autocomplete="off">
-
-            <input
-                type="url"
-                id="url"
-                placeholder="Paste the link you don’t want to forget"
-                required
-            >
-
-            <input
-                type="text"
-                id="reason"
-                placeholder="Why do you want to come back here?"
-                required
-            >
-
-            <input
-                type="number"
-                id="remindAfter"
-                placeholder="Remind me in how many minutes? (optional)"
-                min="1"
-            >
-
-            <button type="submit">Save Tab</button>
-        </form>
-    </div>
-
-    <!-- List Card -->
-    <div class="card list-card">
-
-        <div class="controls">
-            <input
-                type="text"
-                id="search"
-                placeholder="Search by link or reason…"
-            >
-
-            <select id="filter">
-                <option value="all">All tabs</option>
-                <option value="pending">Pending</option>
-                <option value="done">Completed</option>
-            </select>
+      </div>
+      <div class="field">
+        <label>Tags <span style="text-transform:none;letter-spacing:0;font-weight:400;opacity:.6">(Enter or ,)</span></label>
+        <div class="tags-wrap" id="tagsWrap">
+          <input type="text" id="tagInput" placeholder="Add tag…">
         </div>
+      </div>
+      <button type="submit" class="btn-submit">Save Tab →</button>
+    </form>
+  </aside>
 
-        <div id="reminderBox"></div>
-
-        <ul id="tabList"></ul>
+  <main class="main">
+    <div id="notifBanner">
+      <span>🔔 <strong>Enable notifications</strong> to get reminded even when you're on another tab.</span>
+      <button id="allowNotifBtn">Allow</button>
     </div>
 
+    <div class="controls-bar">
+      <div class="search-wrap">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="search" placeholder="Search tabs…">
+      </div>
+      <select id="filterSel" class="filter-sel">
+        <option value="all">All</option>
+        <option value="pending">Pending</option>
+        <option value="done">Done</option>
+      </select>
+    </div>
+    <div class="sort-chips">
+      <button class="sort-chip active" data-s="newest">Newest</button>
+      <button class="sort-chip" data-s="oldest">Oldest</button>
+      <button class="sort-chip" data-s="priority">Priority</button>
+      <button class="sort-chip" data-s="az">A–Z</button>
+    </div>
+    <div class="prog-row" id="progRow">
+      <span id="progLabel">0%</span>
+      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      <span id="progFrac">0/0</span>
+    </div>
+    <div id="reminderBox">
+      <div class="rbh">🔔 Reminders due</div>
+      <div id="reminderList"></div>
+    </div>
+    <div class="empty" id="emptyState">
+      <div class="ei">📭</div>
+      <p>Nothing here yet — save a tab from the sidebar.</p>
+    </div>
+    <div id="tabList"></div>
+  </main>
 </div>
 
-<script src="script.js"></script>
+<div class="backdrop" id="backdrop">
+  <div class="modal">
+    <h3>Delete this tab?</h3>
+    <p>This can't be undone. The tab will be permanently removed from your list.</p>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="mCancel">Cancel</button>
+      <button class="btn-del" id="mConfirm">Delete</button>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script src="app.js"></script>
 </body>
 </html>
